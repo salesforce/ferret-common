@@ -1,0 +1,9 @@
+stages:
+  cadvisor usage:
+    description: run cadvisor to debug containers memory
+    setup:
+      - command: docker run -d --name=cadvisor -p 8090:8080 --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --volume=/var/run/docker.sock:/var/run/docker.sock:rw google/cadvisor:latest
+      - command: open http://localhost:8090/
+    teardown:
+      - command: docker stop cadvisor
+      - command: docker rm cadvisor
