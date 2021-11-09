@@ -1,0 +1,10 @@
+stages:
+  brew check:
+    description: check if brew exists and if not install it.
+    when:
+      condition:
+        operator: exit_code_not_equals
+        command: brew --version
+        compareTo: 0
+    setup:
+      - command: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"

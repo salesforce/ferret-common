@@ -1,0 +1,14 @@
+stages:
+  brew check:
+    setup:
+      - apply:
+          pipeline: tools/brew
+  kubectl check:
+    description: check if kubectl exists and if not install it.
+    when:
+      condition:
+        operator: exit_code_not_equals
+        command: kubectl help
+        compareTo: 0
+    setup:
+      - command: brew install kubectl

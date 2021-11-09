@@ -1,0 +1,24 @@
+stages:
+  cadvisor run:
+    description: run cadvisor to debug containers memory
+    setup:
+      - apply:
+          pipeline: cadvisor
+    teardown:
+      - apply:
+          pipeline: cadvisor
+  prometheus run:
+    description: run prometheus for better metrics
+    inputs:
+      - key: prom
+        remote:
+          owner: datorama
+          repository: ferret-common
+          branch: prometheus
+          file: /pipelines/prometheus/files/prometheus.yml
+    setup:
+      - command: docker run -d --name=prometheus --network=host -p 9091:9090 -v {{input.prom}}:/etc/prometheus/prometheus.yml:ro prom/prometheus:latest --config.file=/etc/prometheus/prometheus.yml
+      - command: open http://localhost:9091/graph
+    teardown:
+      - command: docker stop prometheus
+      - command: docker rm prometheus
