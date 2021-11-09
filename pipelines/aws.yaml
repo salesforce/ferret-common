@@ -1,0 +1,14 @@
+stages:
+  brew check:
+    setup:
+      - apply:
+          pipeline: tools/brew
+  aws check:
+    description: check if aws exists and if not install it.
+    when:
+      condition:
+        operator: exit_code_not_equals
+        command: aws --version
+        compareTo: 0
+    setup:
+      - command: brew install awscli

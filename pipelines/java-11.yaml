@@ -1,0 +1,11 @@
+stages:
+  install java 11:
+    description: install java if not exists.
+    when:
+      condition:
+        operator: exit_code_not_equals
+        command: java -version
+        compareTo: 0
+    setup:
+      - command: brew tap AdoptOpenJDK/openjdk
+      - command: brew install --cask adoptopenjdk11

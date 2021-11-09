@@ -1,0 +1,10 @@
+stages:
+  install maven:
+    description: install maven if not exists.
+    when:
+      condition:
+        operator: exit_code_not_equals
+        command: mvn --version
+        compareTo: 0
+    setup:
+      - command: brew install maven

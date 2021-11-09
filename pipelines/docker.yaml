@@ -1,0 +1,11 @@
+stages:
+  install Docker:
+    description: install Docker Desktop if not exists.
+    when:
+      condition:
+        operator: exit_code_not_equals
+        command: docker --version
+        compareTo: 0
+    setup:
+      - command: brew install --cask  docker
+      - command: open --background -a Docker && while ! docker system info > /dev/null 2>&1; do sleep 1; done
